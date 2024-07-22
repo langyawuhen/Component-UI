@@ -82,7 +82,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wocwin/hoski-business-ui.git"
+    "url": "https://github.com/langyawuhen/Component-UI.git"
   },
   "homepage": "https://wocwin.github.io/hoski-business-ui/",
   "keywords": [
@@ -93,6 +93,7 @@
     "vitepress",
     "vue",
     "vue3",
+    "hoski",
     "hoski-ui",
     "hoski-business-ui",
     "wocwin",
