@@ -1,22 +1,26 @@
 <template>
   <div class="cell">
     <div class="cell-player">
-      <div :class="cellClass(i)" v-for="(v,i) in afterSource" :key="i">
-        <VideoCellPlayer :ratio="ratio" :source="v" v-if="cellCount != 6 && cellCount != 8"/>
-        <VideoCellPlayer :ratio="ratio" :source="v" v-if="cellCount == 6 && i != 1 && i != 2"/>
+      <div :class="cellClass(i)" v-for="(v, i) in afterSource" :key="i">
+        <VideoCellPlayer :ratio="ratio" :source="v" v-if="cellCount != 6 && cellCount != 8" />
+        <VideoCellPlayer :ratio="ratio" :source="v" v-if="cellCount == 6 && i != 1 && i != 2" />
         <template v-if="cellCount == 6 && i == 1">
           <div class="cell-player-6-2-cell">
-            <VideoCellPlayer :ratio="ratio" :source="v"/>
-            <VideoCellPlayer :ratio="ratio" :source="afterSource[i+1]"/>
+            <VideoCellPlayer :ratio="ratio" :source="v" />
+            <VideoCellPlayer :ratio="ratio" :source="afterSource[i + 1]" />
           </div>
         </template>
 
-        <VideoCellPlayer :ratio="ratio" :source="v" v-if="cellCount == 8 && i != 1 && i != 2 && i != 3"/>
+        <VideoCellPlayer
+          :ratio="ratio"
+          :source="v"
+          v-if="cellCount == 8 && i != 1 && i != 2 && i != 3"
+        />
         <template v-if="cellCount == 8 && i == 1">
-          <div class="cell-player-8-2-cell" v-if="i==1">
-            <VideoCellPlayer :ratio="ratio" :source="v"/>
-            <VideoCellPlayer :ratio="ratio" :source="afterSource[i+1]"/>
-            <VideoCellPlayer :ratio="ratio" :source="afterSource[i+2]"/>
+          <div class="cell-player-8-2-cell" v-if="i == 1">
+            <VideoCellPlayer :ratio="ratio" :source="v" />
+            <VideoCellPlayer :ratio="ratio" :source="afterSource[i + 1]" />
+            <VideoCellPlayer :ratio="ratio" :source="afterSource[i + 2]" />
           </div>
         </template>
       </div>
@@ -24,10 +28,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import {type PropType, ref, watch, computed, onBeforeMount} from 'vue'
-import VideoCellPlayer from './VideoCellPlayer.vue'
-import {ElMessage} from 'element-plus'
-import {VideoSource} from "./type";
+import { type PropType, ref, watch, computed, onBeforeMount } from "vue"
+import VideoCellPlayer from "./VideoCellPlayer.vue"
+import { ElMessage } from "element-plus"
+import { VideoSource } from "./type"
 
 const props = defineProps({
   receiveCount: {
@@ -44,16 +48,19 @@ const props = defineProps({
   }
 })
 const cellCount = ref<number>(4)
-watch(() => props.receiveCount, (nv: number) => {
-  cellCount.value = nv
-})
+watch(
+  () => props.receiveCount,
+  (nv: number) => {
+    cellCount.value = nv
+  }
+)
 const afterSource = computed(() => {
-  const {source, receiveCount} = props
+  const { source, receiveCount } = props
   const newSource: VideoSource[] = []
   if (source.length > receiveCount) {
     ElMessage({
-      message: '请重新选择布局！',
-      type: 'warning',
+      message: "请重新选择布局！",
+      type: "warning"
     })
     return []
   }
@@ -72,34 +79,27 @@ const afterSource = computed(() => {
 const cellClass = (index: number) => {
   switch (cellCount.value) {
     case 1:
-      return ['cell-player-1']
+      return ["cell-player-1"]
     case 4:
-      return ['cell-player-4']
+      return ["cell-player-4"]
     case 6:
-      if (index == 0)
-        return ['cell-player-6-1']
-      if (index == 1)
-        return ['cell-player-6-2']
-      if (index == 2)
-        return ['cell-player-6-none']
-      return ['cell-player-6']
+      if (index == 0) return ["cell-player-6-1"]
+      if (index == 1) return ["cell-player-6-2"]
+      if (index == 2) return ["cell-player-6-none"]
+      return ["cell-player-6"]
     case 8:
-      if (index == 0)
-        return ['cell-player-8-1']
-      if (index == 1)
-        return ['cell-player-8-2']
-      if (index == 2 || index == 3)
-        return ['cell-player-8-none']
-      return ['cell-player-8']
+      if (index == 0) return ["cell-player-8-1"]
+      if (index == 1) return ["cell-player-8-2"]
+      if (index == 2 || index == 3) return ["cell-player-8-none"]
+      return ["cell-player-8"]
     case 9:
-      return ['cell-player-9']
+      return ["cell-player-9"]
     case 16:
-      return ['cell-player-16']
+      return ["cell-player-16"]
     default:
-      break;
+      break
   }
 }
-
 </script>
 <style scoped lang="scss">
 .cell {
@@ -114,7 +114,6 @@ const cellClass = (index: number) => {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-
 
     .cell-player-1 {
       width: 100%;
@@ -144,7 +143,6 @@ const cellClass = (index: number) => {
       height: 33.33% !important;
       box-sizing: border-box;
     }
-
 
     .cell-player-6-1 {
       width: 66.66%;
@@ -176,7 +174,6 @@ const cellClass = (index: number) => {
       box-sizing: border-box;
     }
 
-
     .cell-player-8-1 {
       width: 75%;
       height: 75% !important;
@@ -201,7 +198,5 @@ const cellClass = (index: number) => {
       flex-direction: column;
     }
   }
-
 }
-
 </style>

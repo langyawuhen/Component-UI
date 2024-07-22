@@ -4,7 +4,7 @@ import type { Component, App } from "vue"
 // import 'element-plus/dist/index.css'
 // import locale from 'element-plus/lib/locale/lang/zh-cn' // 因element-plus默认是英文，我们指定一下默认中文
 import HoskiMap from "./map"
-import HoskiVideo from './video'
+import HoskiVideo from "./video"
 
 // 存储组件列表
 const components: {
@@ -41,10 +41,7 @@ if (typeof window !== "undefined" && window.Vue) {
 }
 
 // 按需引入
-export {
-  HoskiMap,
-  HoskiVideo
-}
+export { HoskiMap, HoskiVideo }
 /**
  * @description 公共方法
  */

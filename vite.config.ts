@@ -77,10 +77,10 @@ export default defineConfig({
     lib: {
       // entry: resolve(__dirname, 'packages/index.ts'),
       entry: './packages/index.ts',
-      name: 't-ui-plus',
+      name: 'hoski-business-ui',
       // formats: ['es', 'cjs'],
       // formats: ['es', 'umd', 'cjs'],
-      fileName: 't-ui-plus',
+      fileName: 'hoski-business-ui',
     },
   },
 })

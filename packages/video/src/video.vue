@@ -1,27 +1,35 @@
 <template>
   <div class="video">
-    <div class="video-title">
-      【{{ layout }}】【{{ ratio }}】
-    </div>
+    <div class="video-title">【{{ layout }}】【{{ ratio }}】</div>
     <el-container class="video-container">
       <el-header height="46px" class="video-container-header">
         <div class="header-box">
-          <div class="header-box-item" v-for="(module,i) in moduleItems" :key="i" @click="module.onEvent">
+          <div
+            class="header-box-item"
+            v-for="(module, i) in moduleItems"
+            :key="i"
+            @click="module.onEvent"
+          >
             <el-icon class="pointer" size="25" color="#1D2129">
-              <component :is="module.icon"/>
+              <component :is="module.icon" />
             </el-icon>
-            <span class="pointer module-title" v-if="module.isCloseAll">{{ module.currentValue }}</span>
+            <span class="pointer module-title" v-if="module.isCloseAll">{{
+              module.currentValue
+            }}</span>
             <el-dropdown v-else @command="handleCommand" popper-class="dropdown-showcase">
-                        <span class="dropdown-showcase module-title">
-                          <span>{{ module.currentValue }}</span>
-                          <el-icon class="el-icon--right">
-                            <CaretBottom/>
-                          </el-icon>
-                        </span>
+              <span class="dropdown-showcase module-title">
+                <span>{{ module.currentValue }}</span>
+                <el-icon class="el-icon--right">
+                  <CaretBottom />
+                </el-icon>
+              </span>
               <template #dropdown v-if="!module.isCloseAll">
                 <el-dropdown-menu>
-                  <el-dropdown-item v-for="menu in module.select" :key="menu.value"
-                                    :command="`${module.name}-${menu.value}`">
+                  <el-dropdown-item
+                    v-for="menu in module.select"
+                    :key="menu.value"
+                    :command="`${module.name}-${menu.value}`"
+                  >
                     {{ menu.label }}
                   </el-dropdown-item>
                 </el-dropdown-menu>
@@ -31,33 +39,38 @@
         </div>
       </el-header>
       <el-main class="video-container-main">
-        <VideoPlayer v-if="onShow" style="width: 100%" :receive-count="receiveCount" :source="newSource"
-                     :ratio="ratio"/>
-        <el-empty v-else description="暂无内容"/>
+        <VideoPlayer
+          v-if="onShow"
+          style="width: 100%"
+          :receive-count="receiveCount"
+          :source="newSource"
+          :ratio="ratio"
+        />
+        <el-empty v-else description="暂无内容" />
       </el-main>
     </el-container>
   </div>
 </template>
 <script setup lang="ts">
-import {onBeforeMount, ref, shallowRef} from 'vue'
-import type {Component, Ref, PropType} from 'vue'
-import {CaretBottom} from '@element-plus/icons-vue'
-import CloseAll from "../../svgIcon/close-all.vue";
-import CodeStream from "../../svgIcon/code-stream.vue";
-import Layout from "../../svgIcon/layout.vue";
-import Ratio from "../../svgIcon/ratio.vue";
-import VideoPlayer from "./VideoPlayer.vue";
-import {VideoSource} from "./type";
-import mitt from './utils'
+import { onBeforeMount, ref, shallowRef } from "vue"
+import type { Component, Ref, PropType } from "vue"
+import { CaretBottom } from "@element-plus/icons-vue"
+import CloseAll from "../../svgIcon/close-all.vue"
+import CodeStream from "../../svgIcon/code-stream.vue"
+import Layout from "../../svgIcon/layout.vue"
+import Ratio from "../../svgIcon/ratio.vue"
+import VideoPlayer from "./VideoPlayer.vue"
+import { VideoSource } from "./type"
+import mitt from "./utils"
 
-type Select = { label: string, value: string }
+type Select = { label: string; value: string }
 type ModuleItems = {
-  name: string,
-  icon: Component,
-  isCloseAll: boolean,
-  currentValue: Ref<string>,
-  select: Select[],
-  onEvent?: Function,
+  name: string
+  icon: Component
+  isCloseAll: boolean
+  currentValue: Ref<string>
+  select: Select[]
+  onEvent?: Function
 }
 defineOptions({
   name: "HoskiVideo"
@@ -74,25 +87,25 @@ const props = defineProps({
 })
 const newSource = ref<VideoSource[]>([])
 const onShow = ref<boolean>(true)
-const emit = defineEmits(['closeAll', 'selectEvent', 'videoOption'])
+const emit = defineEmits(["closeAll", "selectEvent", "videoOption"])
 const ratio = ref<string>("4:3")
 const layout = ref<string>("4宫格")
 const receiveCount = ref<number>(4)
 //替换资源
 onBeforeMount(() => {
   newSource.value = [...props.source]
-  mitt.on('clickVideo', (source: VideoSource) => {
+  mitt.on("clickVideo", (source: VideoSource) => {
     if ([6, 8].includes(receiveCount.value)) {
       const idx = newSource.value?.findIndex(v => v.sourceId === source.sourceId)
       const temp = newSource.value[0]
-      newSource.value[0] = source  //替换第一个位置的视频
+      newSource.value[0] = source //替换第一个位置的视频
       newSource.value[Number(idx)] = temp
     }
   })
 })
 const closeAll = () => {
   onShow.value = false
-  emit('closeAll')
+  emit("closeAll")
 }
 const moduleItems = shallowRef<ModuleItems[]>([
   {
@@ -108,7 +121,7 @@ const moduleItems = shallowRef<ModuleItems[]>([
     icon: CodeStream,
     isCloseAll: false,
     currentValue: ref<string>("子码流"),
-    select: props.codeStreamData,
+    select: props.codeStreamData
   },
   {
     name: "Layout",
@@ -116,20 +129,23 @@ const moduleItems = shallowRef<ModuleItems[]>([
     isCloseAll: false,
     currentValue: ref<string>("4宫格"),
     select: [
-      {label: "1宫格", value: "1"},
-      {label: "4宫格", value: "4"},
-      {label: "1大5小", value: "6"},
-      {label: "1大7小", value: "8"},
-      {label: "9宫格", value: "9",},
-      {label: "16宫格", value: "16"}
-    ],
+      { label: "1宫格", value: "1" },
+      { label: "4宫格", value: "4" },
+      { label: "1大5小", value: "6" },
+      { label: "1大7小", value: "8" },
+      { label: "9宫格", value: "9" },
+      { label: "16宫格", value: "16" }
+    ]
   },
   {
     name: "Ratio",
     icon: Ratio,
     isCloseAll: false,
     currentValue: ref<string>("4:3"),
-    select: [{label: "4:3", value: "4:3"}, {label: "16:9", value: "16:9"}],
+    select: [
+      { label: "4:3", value: "4:3" },
+      { label: "16:9", value: "16:9" }
+    ]
   }
 ])
 
@@ -138,23 +154,23 @@ const moduleItems = shallowRef<ModuleItems[]>([
  * @param command
  */
 const handleCommand = (command: string) => {
-  emit('selectEvent', command)
-  const name = command.split('-')[0]
-  const selectValue = command.split('-')[1]
+  emit("selectEvent", command)
+  const name = command.split("-")[0]
+  const selectValue = command.split("-")[1]
   moduleItems.value.forEach((item: ModuleItems) => {
     if (item.name === name) {
       item.select.forEach((_item: Select) => {
         if (_item.value === selectValue) {
           item.currentValue.value = _item.label
 
-          if (name === 'Layout') {
+          if (name === "Layout") {
             layout.value = _item.label
             receiveCount.value = Number(selectValue)
           }
 
-          if (name === 'Ratio') {
+          if (name === "Ratio") {
             ratio.value = _item.label
-            mitt.emit('ratio', command)
+            mitt.emit("ratio", command)
           }
         }
       })
@@ -162,11 +178,11 @@ const handleCommand = (command: string) => {
   })
 }
 const passVideoOption = (val: number) => {
-  emit('videoOption', val)
+  emit("videoOption", val)
 }
 onBeforeMount(() => {
   onShow.value = true
-  mitt.on('video-option', e => {
+  mitt.on("video-option", e => {
     passVideoOption(e as number)
   })
 })
@@ -194,7 +210,6 @@ onBeforeMount(() => {
     height: calc(100% - 35px);
 
     &-header {
-
       .header-box {
         display: flex;
         align-items: center;
@@ -208,7 +223,7 @@ onBeforeMount(() => {
           height: 100%;
 
           .module-title {
-            color: #4E5969;
+            color: #4e5969;
           }
         }
       }

@@ -1,79 +1,83 @@
 <template>
-  <div class="videoPlay" :style="{'--w':ratio=='4:3'?'80%':'100%','--a':ratio=='4:3'?'-13%':'0'}">
+  <div
+    class="videoPlay"
+    :style="{ '--w': ratio == '4:3' ? '80%' : '100%', '--a': ratio == '4:3' ? '-13%' : '0' }"
+  >
     <video
-        @contextmenu.prevent.stop="changeVideoSource(source)"
-        ref="m3u8_video"
-        class="video-js vjs-default-skin vjs-big-play-centered vjs-matrix"
-        :controls="true">
-      <source :src="source.videoSrc"/>
+      @contextmenu.prevent.stop="changeVideoSource(source)"
+      ref="m3u8_video"
+      class="video-js vjs-default-skin vjs-big-play-centered vjs-matrix"
+      :controls="true"
+    >
+      <source :src="source.videoSrc" />
     </video>
   </div>
 </template>
 <script lang="ts" setup>
-import {nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue";
-import videojs, {VideoJsPlayer} from "video.js";
-import "video.js/dist/video-js.css";
-import zh from "video.js/dist/lang/zh-CN.json";
-import mitt from "./utils";
-import {VideoSource} from "./type";
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue"
+import videojs, { VideoJsPlayer } from "video.js"
+import "video.js/dist/video-js.css"
+import zh from "video.js/dist/lang/zh-CN.json"
+import mitt from "./utils"
+import { VideoSource } from "./type"
 
 const props = withDefaults(
-    defineProps<{
-      source: VideoSource;
-      autoPlay?: boolean;
-      ratio: string;
-    }>(),
-    {autoPlay: false, ratio: "4:3"}
-);
-const m3u8_video = ref();
+  defineProps<{
+    source: VideoSource
+    autoPlay?: boolean
+    ratio: string
+  }>(),
+  { autoPlay: false, ratio: "4:3" }
+)
+const m3u8_video = ref()
 // const aspectRatio = ref<string>("4:3")
-let player: VideoJsPlayer;
+let player: VideoJsPlayer
 const initPlay = async () => {
-  videojs.addLanguage("zh-CN", zh);
-  await nextTick();
+  videojs.addLanguage("zh-CN", zh)
+  await nextTick()
   const options = {
     muted: true,
     controls: true,
     autoplay: true,
     loop: true,
     language: "zh-CN",
-    techOrder: ["html5"],
+    techOrder: ["html5"]
     // aspectRatio: aspectRatio.value
-  };
+  }
   player = videojs(m3u8_video.value, options, () => {
-    videojs.log("播放器已经准备好了!");
+    videojs.log("播放器已经准备好了!")
     if (props.autoPlay && props.source.videoSrc) {
-      player.play();
+      player.play()
     }
     player.on("ended", () => {
-      videojs.log("播放结束了!");
-    });
+      videojs.log("播放结束了!")
+    })
     player.on("error", () => {
-      videojs.log("播放器解析出错!");
-    });
-  });
-};
+      videojs.log("播放器解析出错!")
+    })
+  })
+}
 onMounted(() => {
-  initPlay();
-});
+  initPlay()
+})
 const changeVideoSource = (source: VideoSource) => {
-  mitt.emit('clickVideo', source)
+  mitt.emit("clickVideo", source)
 }
 //直接改变路径测试
 watch(
-    () => props.source.videoSrc,
-    () => {
-      player.pause();
-      player.src(props.source.videoSrc);
-      player.load();
-      if (props.source.videoSrc) {
-        player.play();
-      }
+  () => props.source.videoSrc,
+  () => {
+    player.pause()
+    player.src(props.source.videoSrc)
+    player.load()
+    if (props.source.videoSrc) {
+      player.play()
     }
-);
+  }
+)
 onBeforeUnmount(() => {
-  player?.dispose();
-});
+  player?.dispose()
+})
 defineExpose({
   hoskiRef: m3u8_video
 })
@@ -86,7 +90,8 @@ defineExpose({
   bottom: 16px;
 }
 
-.vjs-has-started .vjs-control-bar, .vjs-audio-only-mode .vjs-control-bar {
+.vjs-has-started .vjs-control-bar,
+.vjs-audio-only-mode .vjs-control-bar {
   //opacity: 1 !important;
   position: absolute;
   width: 100%;
@@ -102,7 +107,7 @@ defineExpose({
   width: 0 !important;
 }
 
-span[aria-hidden=true] {
+span[aria-hidden="true"] {
   display: none;
 }
 
@@ -142,7 +147,7 @@ span[aria-hidden=true] {
 .vjs-matrix .vjs-volume-level,
 .vjs-matrix .vjs-play-progress,
 .vjs-matrix .vjs-slider-bar {
-  background: #2961F5;
+  background: #2961f5;
 }
 
 .vjs-icon-fullscreen-enter:before,
@@ -151,17 +156,18 @@ span[aria-hidden=true] {
 .video-js .vjs-picture-in-picture-control .vjs-icon-placeholder:before,
 .vjs-icon-volume-mute:before,
 .video-js .vjs-mute-control.vjs-vol-0 .vjs-icon-placeholder:before,
-.vjs-icon-play:before, .video-js .vjs-play-control .vjs-icon-placeholder:before {
+.vjs-icon-play:before,
+.video-js .vjs-play-control .vjs-icon-placeholder:before {
   display: none;
 }
 
-[pseudo=-webkit-media-controls-volume-control-container] {
+[pseudo="-webkit-media-controls-volume-control-container"] {
   display: none;
 }
 </style>
 <style lang="scss" scoped>
 .videoPlay {
-  --w: '80%';
+  --w: "80%";
   width: 100%;
   height: 100%;
   display: flex;
@@ -179,4 +185,3 @@ span[aria-hidden=true] {
   object-fit: fill;
 }
 </style>
-

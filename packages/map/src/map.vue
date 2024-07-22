@@ -1,38 +1,38 @@
 <template>
   <!--地图容器-->
   <div class="map">
-    <AMap ref="amap" v-if="currentMap==1"/>
-    <TileMap ref="tilemap" v-else/>
+    <AMap ref="amap" v-if="currentMap == 1" />
+    <TileMap ref="tilemap" v-else />
     <div class="select">
       <el-select
-          v-model="currentMap"
-          :suffix-icon="ArrowDown"
-          placeholder="选择地图"
-          style="width: 120px"
+        v-model="currentMap"
+        :suffix-icon="ArrowDown"
+        placeholder="选择地图"
+        style="width: 120px"
       >
         <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
         />
       </el-select>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import {reactive, ref} from 'vue'
-import {ArrowDown} from '@element-plus/icons-vue'
-import AMap from "./AMap.vue";
-import TileMap from "./TileMap.vue";
+import { reactive, ref } from "vue"
+import { ArrowDown } from "@element-plus/icons-vue"
+import AMap from "./AMap.vue"
+import TileMap from "./TileMap.vue"
 
 defineOptions({
   name: "HoskiMap"
 })
 
 interface Option {
-  label: string;
-  value: number;
+  label: string
+  value: number
 }
 
 const amap = ref<HTMLElement>()
@@ -41,27 +41,30 @@ const currentMap = ref<number>(1)
 const options = reactive<Option[]>([
   {
     value: 1,
-    label: '高德地图',
+    label: "高德地图"
   },
   {
     value: 2,
-    label: '瓦片地图',
-  },
+    label: "瓦片地图"
+  }
 ])
 
 function getLocation() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(position => {
-      console.log("position ===>", position)
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      console.log("Latitude: " + latitude + " Longitude: " + longitude);
-      // initMap()
-    }, err => {
-      console.log("err ===>", err)
-    });
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        console.log("position ===>", position)
+        const latitude = position.coords.latitude
+        const longitude = position.coords.longitude
+        console.log("Latitude: " + latitude + " Longitude: " + longitude)
+        // initMap()
+      },
+      err => {
+        console.log("err ===>", err)
+      }
+    )
   } else {
-    console.log("Geolocation is not supported by this browser.");
+    console.log("Geolocation is not supported by this browser.")
   }
 }
 </script>
@@ -85,7 +88,7 @@ function getLocation() {
     border-radius: 6px;
 
     .item-border {
-      border-bottom: 1px solid #F1F4F7;
+      border-bottom: 1px solid #f1f4f7;
     }
 
     &-item {
@@ -100,7 +103,7 @@ function getLocation() {
         border-radius: 6px;
         font-size: 14px;
         opacity: 1;
-        color: #4E5969;
+        color: #4e5969;
       }
     }
   }

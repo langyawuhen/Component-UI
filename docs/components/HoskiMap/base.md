@@ -2,6 +2,6 @@
 
 ### 基础用法
 
-:::demo 
+:::demo
 HoskiMap/base
 :::

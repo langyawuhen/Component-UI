@@ -1,18 +1,23 @@
 <template>
-  <div style="height: 50vh;width: 100%">
-    <hoski-video :source="source" @close-all="closeAll" @select-event="selectEvent" @videoOption="videoOption"
-                 :codeStreamData="codeStreamData"/>
+  <div style="height: 50vh; width: 100%">
+    <hoski-video
+      :source="source"
+      @close-all="closeAll"
+      @select-event="selectEvent"
+      @videoOption="videoOption"
+      :codeStreamData="codeStreamData"
+    />
   </div>
 </template>
 <script setup lang="ts">
-import {ref} from 'vue'
+import { ref } from "vue"
 
 type VideoSource = {
-  sourceId: string;
-  videoSrc: string,
-  title: string,
-  speed: string,
-  codeStream: string,
+  sourceId: string
+  videoSrc: string
+  title: string
+  speed: string
+  codeStream: string
 }
 const source = ref<VideoSource[]>([
   {
@@ -45,9 +50,9 @@ const source = ref<VideoSource[]>([
   }
 ])
 const codeStreamData = [
-  {label: "480P", value: "1"},
-  {label: "720P", value: "1"},
-  {label: "1080P", value: "1"}
+  { label: "480P", value: "1" },
+  { label: "720P", value: "1" },
+  { label: "1080P", value: "1" }
 ]
 /**
  * 全部关闭事件
@@ -70,5 +75,4 @@ const selectEvent = (val: string) => {
 const videoOption = (val: number) => {
   console.log("val ===>", val)
 }
-
 </script>

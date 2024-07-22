@@ -5,8 +5,8 @@
   "author": "langyawuhen",
   "license": "MIT",
   "private": false,
-  "main": "lib/t-ui-plus.umd.cjs",
-  "module": "lib/t-ui-plus.umd.cjs",
+  "main": "lib/hoski-business-ui.umd.cjs",
+  "module": "lib/hoski-business-ui.umd.cjs",
   "types": "lib/index.d.ts",
   "type": "module",
   "files": [
@@ -82,9 +82,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wocwin/t-ui-plus.git"
+    "url": "https://github.com/wocwin/hoski-business-ui.git"
   },
-  "homepage": "https://wocwin.github.io/t-ui-plus/",
+  "homepage": "https://wocwin.github.io/hoski-business-ui/",
   "keywords": [
     "element-ui",
     "element-plus",

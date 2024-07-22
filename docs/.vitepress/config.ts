@@ -10,7 +10,9 @@ export default defineConfig({
     logo: "/favicon.ico",
     siteTitle: "Hoski业务组件文档",
     outline: 3,
-    socialLinks: [{ icon: "github", link: "https://gitee.com/jiangsu_cargo_base_network/hoski-business-ui.git" }],
+    socialLinks: [
+      { icon: "github", link: "https://gitee.com/jiangsu_cargo_base_network/hoski-business-ui.git" }
+    ],
     nav: [
       {
         text: "安装指南",
@@ -20,7 +22,7 @@ export default defineConfig({
       {
         text: "Gitee 地址",
         link: "https://gitee.com/jiangsu_cargo_base_network/hoski-business-ui.git"
-      },
+      }
     ],
     sidebar: {
       "/components": [
@@ -30,7 +32,7 @@ export default defineConfig({
             { text: "地图组件", link: "/components/HoskiMap/base.md" },
             { text: "视频组件", link: "/components/HoskiVideo/base.md" }
           ]
-        },
+        }
       ]
     }
   },

@@ -2,7 +2,7 @@
 
 ::: tip 提示
 
-hoski-business-ui 基于 vue3 + ts + Element-plus 封装的Hoski业务组件
+hoski-business-ui 基于 vue3 + ts + Element-plus 封装的 Hoski 业务组件
 
 :::
 
@@ -43,21 +43,25 @@ app.use(ElementPlus, {
 app.use(HoskiBsUI)
 app.mount("#app")
 ```
+
 ### 按需引入
 
 ```js
 // 在main.js中按下引入
-import 'hoski-business-ui/lib/style.css'
+import "hoski-business-ui/lib/style.css"
 // 单个.vue文件引入
-<script setup lang="ts">
-  import {TDetail, TForm} from "hoski-business-ui"
+;<script setup lang="ts">
+  import {(TDetail, TForm)} from "hoski-business-ui"
 </script>
 ```
+
 ### 全部组件如下
+
 ```json
 HoskiMap, //地图组件
 HoskiVideo, //视频组件
 ```
+
 ### Hoski-Business-UI 组件 Volar 类型提示
 
 ```js

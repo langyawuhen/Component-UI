@@ -1,55 +1,57 @@
 <template>
   <div class="player">
     <div class="hoski-video">
-      <HoskiVideo ref="hoskiVideo" :source="source" :ratio="ratio" autoPlay/>
+      <HoskiVideo ref="hoskiVideo" :source="source" :ratio="ratio" autoPlay />
     </div>
     <div class="player-title">{{ source.title }}</div>
-    <div class="player-option" :style="{'justify-content':source.speed===''?'flex-end':'space-between'}">
-      <span v-if="source.speed">{{ source.speed }}  {{ source.codeStream }}</span>
+    <div
+      class="player-option"
+      :style="{ 'justify-content': source.speed === '' ? 'flex-end' : 'space-between' }"
+    >
+      <span v-if="source.speed">{{ source.speed }} {{ source.codeStream }}</span>
       <div>
-        <el-icon class="icon" size="25" v-for="(option,index) in optionItems" :key="index">
-          <component :is="option.icon" @click="option.clickEvent"/>
+        <el-icon class="icon" size="25" v-for="(option, index) in optionItems" :key="index">
+          <component :is="option.icon" @click="option.clickEvent" />
         </el-icon>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import {ref, type PropType, computed, onMounted} from 'vue'
-import Play from "../../svgIcon/play.vue";
-import Camera from "../../svgIcon/camera.vue";
-import OpenFullScreen from "../../svgIcon/open-full-screen.vue";
-import HoskiVideo from "./HoskiVideo.vue";
-import {VideoSource} from "./type";
-import Pause from "../../svgIcon/pause.vue";
-import CloseFullScreen from "../../svgIcon/close-full-screen.vue";
-import mitt from './utils'
+import { ref, type PropType, computed, onMounted } from "vue"
+import Play from "../../svgIcon/play.vue"
+import Camera from "../../svgIcon/camera.vue"
+import OpenFullScreen from "../../svgIcon/open-full-screen.vue"
+import HoskiVideo from "./HoskiVideo.vue"
+import { VideoSource } from "./type"
+import Pause from "../../svgIcon/pause.vue"
+import CloseFullScreen from "../../svgIcon/close-full-screen.vue"
+import mitt from "./utils"
 
 defineProps({
   source: {
     type: Object as PropType<VideoSource>,
-    default: () => {
-    }
+    default: () => {}
   },
   ratio: {
     type: String,
     default: "4:3"
   }
 })
-const emit = defineEmits(['video-option'])
+const emit = defineEmits(["video-option"])
 const isFullScreen = ref<boolean>(false)
 const isOnPlaying = ref<boolean>(true)
 const hoskiVideo = ref()
 
 const optionItems = computed(() => {
   return [
-    {icon: isOnPlaying.value ? Play : Pause, clickEvent: () => clickEvent(0)},
-    {icon: Camera, clickEvent: () => clickEvent(1)},
-    {icon: isFullScreen.value ? OpenFullScreen : CloseFullScreen, clickEvent: () => clickEvent(2)}
+    { icon: isOnPlaying.value ? Play : Pause, clickEvent: () => clickEvent(0) },
+    { icon: Camera, clickEvent: () => clickEvent(1) },
+    { icon: isFullScreen.value ? OpenFullScreen : CloseFullScreen, clickEvent: () => clickEvent(2) }
   ]
 })
 const clickEvent = (val: number) => {
-  mitt.emit('video-option', val)
+  mitt.emit("video-option", val)
   switch (val) {
     case 0:
       isOnPlaying.value = !isOnPlaying.value
@@ -78,25 +80,23 @@ const clickEvent = (val: number) => {
 
 // 全屏播放
 function fullscreenFun() {
-  const ele: any = hoskiVideo.value.hoskiRef;
+  const ele: any = hoskiVideo.value.hoskiRef
   if (ele?.requestFullscreen) {
-    ele?.requestFullscreen();
+    ele?.requestFullscreen()
   } else if (ele?.mozRequestFullScreen) {
-    ele?.mozRequestFullScreen();
+    ele?.mozRequestFullScreen()
   } else if (ele?.webkitRequestFullScreen) {
-    ele?.webkitRequestFullScreen();
+    ele?.webkitRequestFullScreen()
   }
 }
 
-onMounted(() => {
-
-})
+onMounted(() => {})
 </script>
 <style scoped lang="scss">
 .player {
   background-color: black;
   height: 100%;
-  border: 1px solid #86909C;
+  border: 1px solid #86909c;
   color: white;
   display: flex;
   justify-content: center;
@@ -107,7 +107,7 @@ onMounted(() => {
   cursor: pointer;
 
   &:hover {
-    border: 2px solid #2961F5;
+    border: 2px solid #2961f5;
 
     .player-option {
       opacity: 1;

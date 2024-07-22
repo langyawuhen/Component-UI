@@ -48,7 +48,7 @@ app.mount('#app')
 
 ```js
 // 在main.js中按下引入
-import '@wocwin/t-ui-plus/lib/style.css'
+import 'hoski-business-ui/lib/style.css'
 // 单个.vue文件引入
 <script setup lang="ts">
   import {HoskiMap, HoskiVideo} from "hoski-business-ui"
@@ -60,7 +60,7 @@ HoskiMap,
 HoskiVideo
 ```
 
-## t-ui-plus Volar 组件类型提示
+## hoski-business-ui Volar 组件类型提示
 
 ```js
 // 需要在使用的项目的tsconfig.json文件中添加以下
