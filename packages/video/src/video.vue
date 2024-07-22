@@ -5,30 +5,30 @@
       <el-header height="46px" class="video-container-header">
         <div class="header-box">
           <div
-            class="header-box-item"
-            v-for="(module, i) in moduleItems"
-            :key="i"
-            @click="module.onEvent"
+              class="header-box-item"
+              v-for="(module, i) in moduleItems"
+              :key="i"
+              @click="module.onEvent"
           >
             <el-icon class="pointer" size="25" color="#1D2129">
-              <component :is="module.icon" />
+              <component :is="module.icon"/>
             </el-icon>
             <span class="pointer module-title" v-if="module.isCloseAll">{{
-              module.currentValue
-            }}</span>
+                module.currentValue
+              }}</span>
             <el-dropdown v-else @command="handleCommand" popper-class="dropdown-showcase">
               <span class="dropdown-showcase module-title">
-                <span>{{ module.currentValue }}</span>
+                <span class="pointer">{{ module.currentValue.value.replace(/\"/g, ' ') }}</span>
                 <el-icon class="el-icon--right">
-                  <CaretBottom />
+                  <CaretBottom/>
                 </el-icon>
               </span>
               <template #dropdown v-if="!module.isCloseAll">
                 <el-dropdown-menu>
                   <el-dropdown-item
-                    v-for="menu in module.select"
-                    :key="menu.value"
-                    :command="`${module.name}-${menu.value}`"
+                      v-for="menu in module.select"
+                      :key="menu.value"
+                      :command="`${module.name}-${menu.value}`"
                   >
                     {{ menu.label }}
                   </el-dropdown-item>
@@ -40,27 +40,27 @@
       </el-header>
       <el-main class="video-container-main">
         <VideoPlayer
-          v-if="onShow"
-          style="width: 100%"
-          :receive-count="receiveCount"
-          :source="newSource"
-          :ratio="ratio"
+            v-if="onShow"
+            style="width: 100%"
+            :receive-count="receiveCount"
+            :source="newSource"
+            :ratio="ratio"
         />
-        <el-empty v-else description="暂无内容" />
+        <el-empty v-else description="暂无内容"/>
       </el-main>
     </el-container>
   </div>
 </template>
 <script setup lang="ts">
-import { onBeforeMount, ref, shallowRef } from "vue"
-import type { Component, Ref, PropType } from "vue"
-import { CaretBottom } from "@element-plus/icons-vue"
+import {onBeforeMount, ref, shallowRef} from "vue"
+import type {Component, Ref, PropType} from "vue"
+import {CaretBottom} from "@element-plus/icons-vue"
 import CloseAll from "../../svgIcon/close-all.vue"
 import CodeStream from "../../svgIcon/code-stream.vue"
 import Layout from "../../svgIcon/layout.vue"
 import Ratio from "../../svgIcon/ratio.vue"
 import VideoPlayer from "./VideoPlayer.vue"
-import { VideoSource } from "./type"
+import {VideoSource} from "./type"
 import mitt from "./utils"
 
 type Select = { label: string; value: string }
@@ -112,7 +112,7 @@ const moduleItems = shallowRef<ModuleItems[]>([
     name: "CloseAll",
     icon: CloseAll,
     isCloseAll: true,
-    currentValue: ref<string>("全部关闭"),
+    currentValue: `全部关闭`,
     select: [],
     onEvent: closeAll
   },
@@ -129,12 +129,12 @@ const moduleItems = shallowRef<ModuleItems[]>([
     isCloseAll: false,
     currentValue: ref<string>("4宫格"),
     select: [
-      { label: "1宫格", value: "1" },
-      { label: "4宫格", value: "4" },
-      { label: "1大5小", value: "6" },
-      { label: "1大7小", value: "8" },
-      { label: "9宫格", value: "9" },
-      { label: "16宫格", value: "16" }
+      {label: "1宫格", value: "1"},
+      {label: "4宫格", value: "4"},
+      {label: "1大5小", value: "6"},
+      {label: "1大7小", value: "8"},
+      {label: "9宫格", value: "9"},
+      {label: "16宫格", value: "16"}
     ]
   },
   {
@@ -143,8 +143,8 @@ const moduleItems = shallowRef<ModuleItems[]>([
     isCloseAll: false,
     currentValue: ref<string>("4:3"),
     select: [
-      { label: "4:3", value: "4:3" },
-      { label: "16:9", value: "16:9" }
+      {label: "4:3", value: "4:3"},
+      {label: "16:9", value: "16:9"}
     ]
   }
 ])
@@ -188,6 +188,10 @@ onBeforeMount(() => {
 })
 </script>
 <style lang="scss">
+.pointer {
+  cursor: pointer;
+}
+
 .dropdown-showcase {
   cursor: pointer;
   display: flex;
