@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 50vh; width: 100%">
+  <div style="height: 700px; width: 100%">
     <hoski-video
       :source="source"
       @close-all="closeAll"
